@@ -1,5 +1,3 @@
-package Niko
-
 import sun.misc.Regexp
 
 /**

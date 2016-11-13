@@ -1,4 +1,3 @@
-import main.Parser
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
 
 
