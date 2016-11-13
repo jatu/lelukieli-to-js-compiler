@@ -10,7 +10,7 @@ object Main {
   val compiler = new LeluCompiler()
 
   def main(args: Array[String]): Unit = {
-
+    LanguageBuilder.getLeluLanguage()
     if(args.length == 0) {
       println("Not enough parameters! Use --help")
       return
