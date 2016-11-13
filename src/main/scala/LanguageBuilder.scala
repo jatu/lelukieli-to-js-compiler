@@ -5,11 +5,12 @@
   */
 object LanguageBuilder {
 
-  val value = new ConcreteSymbol()
-  val symbol = new ConcreteSymbol()
-  val assignment = new ComposedSymbol(symbol, new ConcreteSymbol(), value)
+  val value = new ConcreteSymbol("true|false|null|[0-9]+\\.[0-9]*|[0-9]+")
+  val symbol = new ConcreteSymbol("\\p{L}+")
+  val assignment = new ComposedSymbol(symbol, new ConcreteSymbol("="), value)
+
+  val block = new ComposedSymbol()
 
   //val ifSym = new ComposedSymbol
-
-  //val lelu = new Language()
+  val lelu = new Language(block)
 }
