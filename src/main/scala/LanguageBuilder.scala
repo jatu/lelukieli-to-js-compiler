@@ -4,15 +4,17 @@
   * Created by nikoe on 13.11.2016.
   */
 object LanguageBuilder {
-  val epsilonGroup = List()
+  def getLeluLanguage() = {
+    val epsilonGroup = List()
 
-  val value = new ConcreteSymbol("true|false|null|[0-9]+\\.[0-9]*|[0-9]+")
-  val symbol = new ConcreteSymbol("\\p{L}+")
-  val assignment = new ComposedSymbol(symbol, new ConcreteSymbol("="), value)
+    val value = new ConcreteSymbol("true|false|null|[0-9]+\\.[0-9]*|[0-9]+")
+    val symbol = new ConcreteSymbol("\\p{L}+")
+    val assignment = new ComposedSymbol(List(symbol, new ConcreteSymbol("="), value))
 
-  val loc = new ComposedSymbol(epsilonGroup, List(loc, loc), List(assignment))
+    lazy val loc : ComposedSymbol = new ComposedSymbol(epsilonGroup, List(loc, loc), List(assignment))
 
-  val block = new ComposedSymbol(loc)
+    val block = new ComposedSymbol(List(loc))
 
-  val lelu = new Language(block)
+    new Language(block)
+  }
 }
