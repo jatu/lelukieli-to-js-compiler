@@ -1,6 +1,6 @@
 import scala.util.matching.Regex
 
-class ConcreteSymbol(val regexp: Regex) extends Symbol {
+class TerminalSymbol(val regexp: Regex) extends Symbol {
 
   def this(regexpPattern: String) {
     this(new Regex(regexpPattern))

@@ -9,14 +9,11 @@ object Main {
 
   val compiler = new LeluCompiler()
 
-  val testCode =
-    """
-      asd=null
-    """
+  val testCode = """asd=null"""
 
   def main(args: Array[String]): Unit = {
     val leluLang = LanguageBuilder.buildLeluLanguage()
-    compiler.compile(leluLang, testCode)
+    val rootNode = compiler.compile(leluLang, testCode)
     return
 
     /*if(args.length == 0) {
