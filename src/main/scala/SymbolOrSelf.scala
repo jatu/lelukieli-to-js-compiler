@@ -20,7 +20,7 @@ final case class SymbolReference(x: Symbol) extends SymbolOrSelf {
 
 }
 
-case class Self() extends SymbolOrSelf {
+final case class Self() extends SymbolOrSelf {
 
   def isSelf = true
   def get = throw new NoSuchElementException("Self.get")
