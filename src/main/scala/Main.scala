@@ -4,38 +4,37 @@ object Main {
     """
       Usage:
         app --help
-        app code.lk
+        app -h
+        app --file code.lk
+        app -f code.lk
     """
 
   val compiler = new LeluCompiler()
 
-  val testCode = """asd=null"""
-
   def main(args: Array[String]): Unit = {
-    val leluLang = LanguageBuilder.buildLeluLanguage()
-    val rootNode = compiler.compile(leluLang, testCode)
-    return
-
-    /*if(args.length == 0) {
+    if (args.length == 0) {
       println("Not enough parameters! Use --help")
-
-      compiler.compile(leluLang, testCode)
-
       return
     }
 
-    args(0) match {
-      case "--help" => println(usage)
-      case _  => compiler.compile(leluLang, readFile(args(0)))
-    }*/
+    makeChoice(args)
   }
 
-  /*def readFile(path: String): Unit = {
-    try {
-      scala.io.Source.fromFile(path).getLines.toList
-    } catch {
-      case ex: Exception => println("Cannot read file " + path)
+  def makeChoice(args: Array[String]) {
+    args(0) match {
+      case "-h" | "--help" => println(usage)
+      case "-f" | "--file"  => compile(readFile(args(1)))
+      case _ => println(usage)
     }
-  }*/
+  }
+
+  def compile(param: String) = {
+    val leluLang = LanguageBuilder.buildLeluLanguage()
+    val rootnode = compiler.compile(leluLang, param)
+  }
+
+  def readFile(path: String): String = {
+    scala.io.Source.fromFile(path).mkString
+  }
 
 }
