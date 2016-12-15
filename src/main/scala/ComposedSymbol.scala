@@ -1,4 +1,4 @@
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.immutable.List
 
 class ComposedSymbol (symbolOptionGroups: Seq[SymbolOrSelf]*) extends Symbol {
 
@@ -13,20 +13,30 @@ class ComposedSymbol (symbolOptionGroups: Seq[SymbolOrSelf]*) extends Symbol {
 
   override def parseAstNode(input: CharSequence): Option[(AstNode, CharSequence)] = {
     symbolGroups.map( g => {
-        var code = input
-        val result = new ArrayBuffer[AstNode]
-        for (s <- g) {
-          val symbolParseResult = s.parseAstNode(code)
-          if (symbolParseResult.isEmpty) {
+        var code = input //TODO: fold function should carry result array AND code, currently code is just mutated!
+        val result = g.foldLeft[Option[List[AstNode]]](Some(List[AstNode]())) { (results, symbol) =>
+          if (results.isEmpty) {
             None
           }
           else {
-            result.append(symbolParseResult.get._1)
-            code = symbolParseResult.get._2
+            val symbolParseResult = symbol.parseAstNode(code)
+            if (symbolParseResult.isEmpty) {
+              None
+            }
+            else {
+              code = symbolParseResult.get._2
+              Some((symbolParseResult.get._1) :: results.get)
+            }
           }
         }
 
-        Some( (AstBranch(result), code) )
+        if (result.isEmpty) {
+          None
+        }
+        else {
+          Some( (AstBranch(result.get), code) )
+        }
+
       }
     ).find(r=>r.isDefined).getOrElse(None)
   }
