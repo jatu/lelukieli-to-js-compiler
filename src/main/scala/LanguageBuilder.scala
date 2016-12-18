@@ -5,7 +5,7 @@ object LanguageBuilder {
     val stringValue = new TerminalSymbol("([\"'])(?:(?=(\\\\?))\\2.)*?\\1")
     val symbol = new TerminalSymbol("\\p{L}+")
     val assignment = new ComposedSymbol(List(symbol, new TerminalSymbol("="), value))
-    val condition = new ComposedSymbol(List(stringValue, new TerminalSymbol(" "), symbol, new TerminalSymbol(" "), stringValue))
+    val condition = new ComposedSymbol(List(stringValue, new TerminalSymbol(" "), symbol, new TerminalSymbol(" "), stringValue), List(stringValue))
 
     val print = new ComposedSymbol(List(new TerminalSymbol("tulosta"), new TerminalSymbol(" "), stringValue))
     val wwhile = new ComposedSymbol(List(new TerminalSymbol("toista"), new TerminalSymbol(" "), condition, new TerminalSymbol(":")))
