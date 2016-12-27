@@ -2,6 +2,17 @@ import scala.collection.immutable.List
 
 class ComposedSymbol (symbolOptionGroups: Seq[SymbolOrSelf]*) extends Symbol {
 
+  symbolOptionGroups.foreach(
+    group =>
+      if (group.nonEmpty) {
+        print (group.head.toString)
+        group.head match {
+          case Self() => throw new java.lang.UnsupportedOperationException("ComposedSymbol won't support self reference being first symbol.")
+          case _ =>
+        }
+      }
+  )
+
   val symbolGroups = symbolOptionGroups.map(
     (group: Seq[SymbolOrSelf]) => group.map(
       (symbol: SymbolOrSelf) => symbol match {
