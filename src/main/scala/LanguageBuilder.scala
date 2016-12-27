@@ -11,8 +11,9 @@ object LanguageBuilder {
 
     val print = new ComposedSymbol(List(new TerminalSymbol("tulosta"), new TerminalSymbol(" "), stringValue))
     val wwhile = new ComposedSymbol(List(new TerminalSymbol("toista"), new TerminalSymbol("("), condition, new TerminalSymbol(")"), new TerminalSymbol("{"), mloc, new TerminalSymbol("}")))
+    val iff = new ComposedSymbol(List(new TerminalSymbol("jos"), new TerminalSymbol("("), condition, new TerminalSymbol(")"), new TerminalSymbol("{"), mloc, new TerminalSymbol("}")))
 
-    val loc = new ComposedSymbol(List(assignment), List(print), List(wwhile))
+    val loc = new ComposedSymbol(List(assignment), List(print), List(wwhile), List(iff))
     mloc.addGroups(List(loc, mloc), List(loc))
 
     val block = new ComposedSymbol(List(mloc))
