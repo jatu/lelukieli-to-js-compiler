@@ -1,26 +1,12 @@
 import scala.collection.immutable.List
 
-class ComposedSymbol (symbolOptionGroups: Seq[SymbolOrSelf]*) extends Symbol {
+class ComposedSymbol (symbolOptionGroups: Seq[Symbol]*) extends Symbol {
 
-  symbolOptionGroups.foreach(
-    group =>
-      if (group.nonEmpty) {
-        print (group.head.toString)
-        group.head match {
-          case Self() => throw new java.lang.UnsupportedOperationException("ComposedSymbol won't support self reference being first symbol.")
-          case _ =>
-        }
-      }
-  )
+  var symbolGroups = symbolOptionGroups
 
-  val symbolGroups = symbolOptionGroups.map(
-    (group: Seq[SymbolOrSelf]) => group.map(
-      (symbol: SymbolOrSelf) => symbol match {
-        case SymbolReference(x: Symbol) => x
-        case Self() => this
-      }
-    )
-  )
+  def addGroups(symbolOptionGroups: Seq[Symbol]*) = {
+    symbolGroups = symbolGroups ++ symbolOptionGroups
+  }
 
   override def parseAstNode(input: CharSequence): Option[(AstNode, CharSequence)] = {
     symbolGroups.map( g => {
