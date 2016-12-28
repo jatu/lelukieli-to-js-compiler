@@ -1,3 +1,3 @@
-abstract class AstNode
-case class AstLeaf(content: CharSequence) extends AstNode
-case class AstBranch(subNodes: Seq[AstNode]) extends AstNode
+abstract class AstNode(val symbol: Symbol)
+case class AstLeaf(sym: Symbol, content: CharSequence) extends AstNode(sym)
+case class AstBranch(sym: Symbol, subNodes: Seq[AstNode]) extends AstNode(sym)

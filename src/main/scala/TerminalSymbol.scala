@@ -10,7 +10,7 @@ class TerminalSymbol(val regexp: Regex) extends Symbol {
     val parseResult = regexp.findPrefixMatchOf(input)
 
     parseResult match {
-      case Some(m) => Some((AstLeaf(m.matched), m.after))
+      case Some(m) => Some((AstLeaf(this, m.matched), m.after))
       case None => None
     }
   }

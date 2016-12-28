@@ -31,7 +31,7 @@ class ComposedSymbol (symbolOptionGroups: Seq[Symbol]*) extends Symbol {
           None
         }
         else {
-          Some( (AstBranch(result.get), code) )
+          Some( (AstBranch(this, result.get), code) )
         }
 
       }
