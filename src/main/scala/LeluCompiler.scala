@@ -1,9 +1,18 @@
 import language.Language
 import symbol.AstNode
+import transform.Transform
 
 class LeluCompiler {
 
-  def compile(language: Language, code: String): Option[AstNode] = {
+  def compile(transform: Transform, inputCode: String): Option[String] = {
+    val sourceAstTree = parse(transform.sourceLanguage, inputCode)
+    val targetAstTree = sourceAstTree.map(astTree => transform.transform(astTree))
+    val outputCode = targetAstTree.map(astTree => astTree.toCodeString.toString)
+
+    outputCode
+  }
+
+  def parse(language: Language, code: String): Option[AstNode] = {
     val parseResult = language.startSymbol.parseAstNode(code.toCharArray)
 
     parseResult match {

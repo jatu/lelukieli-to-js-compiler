@@ -1,4 +1,4 @@
-import language.LeluLanguage
+import transform.LeluToJsTransform
 
 object Main {
 
@@ -31,7 +31,7 @@ object Main {
   }
 
   def compile(param: String) = {
-    val rootnode = compiler.compile(LeluLanguage, param)
+    val resultCode = compiler.compile(LeluToJsTransform, param)
   }
 
   def readFile(path: String): String = {
