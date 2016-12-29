@@ -13,8 +13,8 @@ class Transformer {
   }
 
   def transform(ast: AstNode) : AstNode = {
-    val re = transforms.get(ast.symbol)
-    re match {
+    val transform = transforms.get(ast.symbol)
+    transform match {
       case (t: Some[AstNode=>AstNode]) => t.get (ast)
       case None => throw new Exception("Unknown symbol")
     }
