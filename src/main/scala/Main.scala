@@ -11,7 +11,7 @@ object Main {
         app -f code.lk
     """
 
-  val compiler = new LeluCompiler()
+  val compiler = new Compiler()
 
   def main(args: Array[String]): Unit = {
     if (args.length == 0) {

@@ -2,7 +2,7 @@ import language.Language
 import symbol.AstNode
 import transform.Transform
 
-class LeluCompiler {
+class Compiler {
 
   def compile(transform: Transform, inputCode: String): Option[String] = {
     val sourceAstTree = parse(transform.sourceLanguage, inputCode)
