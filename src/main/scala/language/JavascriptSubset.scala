@@ -1,20 +1,20 @@
 package language
 
-import symbol.{ComposedSymbol, TerminalSymbol}
+import symbol.{ComposedSymbol, ControlSymbol, DataSymbol}
 
 object JavascriptSubset extends Language {
 
-  val value = new TerminalSymbol("true|false|null|[0-9]+\\.[0-9]*|[0-9]+")
-  val stringValue = new TerminalSymbol("([\"'])(?:(?=(\\\\?))\\2.)*?\\1")
-  val symbol = new TerminalSymbol("\\p{L}+")
-  val assignment = new ComposedSymbol(List(symbol, new TerminalSymbol("="), value))
-  val condition = new ComposedSymbol(List(stringValue, new TerminalSymbol(" "), symbol, new TerminalSymbol(" "), stringValue), List(stringValue))
+  val value = new DataSymbol("true|false|null|[0-9]+\\.[0-9]*|[0-9]+")
+  val stringValue = new DataSymbol("([\"'])(?:(?=(\\\\?))\\2.)*?\\1")
+  val symbol = new DataSymbol("\\p{L}+")
+  val assignment = new ComposedSymbol(List(symbol, new ControlSymbol("="), value))
+  val condition = new ComposedSymbol(List(stringValue, new ControlSymbol(" "), symbol, new ControlSymbol(" "), stringValue), List(stringValue))
 
   val mloc = new ComposedSymbol()
 
-  val print = new ComposedSymbol(List(new TerminalSymbol("console.log"), new TerminalSymbol("("), stringValue, new TerminalSymbol(")"), new TerminalSymbol(";")))
-  val wwhile = new ComposedSymbol(List(new TerminalSymbol("while"), new TerminalSymbol("("), condition, new TerminalSymbol(")"), new TerminalSymbol("{"), mloc, new TerminalSymbol("}")))
-  val iff = new ComposedSymbol(List(new TerminalSymbol("if"), new TerminalSymbol("("), condition, new TerminalSymbol(")"), new TerminalSymbol("{"), mloc, new TerminalSymbol("}")))
+  val print = new ComposedSymbol(List(new ControlSymbol("console.log"), new ControlSymbol("("), stringValue, new ControlSymbol(")"), new ControlSymbol(";")))
+  val wwhile = new ComposedSymbol(List(new ControlSymbol("while"), new ControlSymbol("("), condition, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}")))
+  val iff = new ComposedSymbol(List(new ControlSymbol("if"), new ControlSymbol("("), condition, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}")))
 
   val loc = new ComposedSymbol()
   mloc.addGroups(List(loc, mloc), List(loc))

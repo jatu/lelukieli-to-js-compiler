@@ -2,7 +2,7 @@ package symbol
 
 import scala.util.matching.Regex
 
-class TerminalSymbol(val regexp: Regex) extends Symbol {
+class DataSymbol(val regexp: Regex) extends Symbol {
 
   def this(regexpPattern: String) {
     this(new Regex(regexpPattern))
@@ -12,7 +12,7 @@ class TerminalSymbol(val regexp: Regex) extends Symbol {
     val parseResult = regexp.findPrefixMatchOf(input)
 
     parseResult match {
-      case Some(m) => Some((AstLeaf(this, m.matched), m.after))
+      case Some(m) => Some((AstDataLeaf(this, m.matched), m.after))
       case None => None
     }
   }
