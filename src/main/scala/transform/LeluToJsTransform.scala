@@ -3,7 +3,10 @@ package transform
 import language.{JavascriptSubset, LeluLanguage}
 import symbol.AstNode
 
-object LeluToJsTransform {
+object LeluToJsTransform extends Transform {
+
+  def sourceLanguage = LeluLanguage
+  def targetLanguage = LeluLanguage
 
   private val compiler = new Transformer()
 
