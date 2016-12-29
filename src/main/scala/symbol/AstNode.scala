@@ -1,5 +1,7 @@
 package symbol
 
-abstract class AstNode(val symbol: Symbol)
-case class AstLeaf(sym: Symbol, content: CharSequence) extends AstNode(sym)
-case class AstBranch(sym: Symbol, subNodes: Seq[AstNode]) extends AstNode(sym)
+trait AstNode {
+  def symbol: Symbol
+}
+case class AstLeaf(symbol: TerminalSymbol, content: CharSequence) extends AstNode
+case class AstBranch(symbol: ComposedSymbol, subNodes: Seq[AstNode]) extends AstNode
