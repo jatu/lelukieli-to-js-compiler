@@ -1,3 +1,6 @@
+import language.Language
+import symbol.AstNode
+
 class LeluCompiler {
 
   def compile(language: Language, code: String): Option[AstNode] = {

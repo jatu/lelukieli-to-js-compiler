@@ -1,3 +1,5 @@
+package symbol
+
 import scala.util.matching.Regex
 
 class TerminalSymbol(val regexp: Regex) extends Symbol {

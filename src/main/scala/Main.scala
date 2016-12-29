@@ -1,3 +1,5 @@
+import language.LeluLanguage
+
 object Main {
 
   val usage =
@@ -29,8 +31,7 @@ object Main {
   }
 
   def compile(param: String) = {
-    val leluLang = LanguageBuilder.buildLeluLanguage()
-    val rootnode = compiler.compile(leluLang, param)
+    val rootnode = compiler.compile(LeluLanguage, param)
   }
 
   def readFile(path: String): String = {

@@ -1,3 +1,5 @@
+package symbol
+
 import scala.collection.immutable.List
 
 class ComposedSymbol (symbolOptionGroups: Seq[Symbol]*) extends Symbol {
