@@ -6,6 +6,7 @@ import symbol.{AstBranch, AstControlLeaf, AstDataLeaf, AstNode, ComposedSymbol, 
 import scala.collection.mutable.HashMap
 
 class Transformer {
+
   private val transforms = new HashMap[Symbol, AstNode=>AstNode]()
 
   def addTransition(symbol: Symbol, transformation: AstNode=>AstNode) = {
@@ -42,5 +43,4 @@ class Transformer {
     AstDataLeaf(targetSymbol, ast.content)
   }
 
-  addTransition(LeluLanguage.block, equalTransition(JavascriptSubset.block))
 }
