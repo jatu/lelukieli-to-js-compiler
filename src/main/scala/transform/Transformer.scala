@@ -1,6 +1,5 @@
 package transform
 
-import language.{JavascriptSubset, LeluLanguage}
 import symbol.{AstBranch, AstControlLeaf, AstDataLeaf, AstNode, ComposedSymbol, ControlSymbol, DataSymbol, Symbol}
 
 import scala.collection.mutable.HashMap
