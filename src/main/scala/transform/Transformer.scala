@@ -31,7 +31,25 @@ class Transformer {
   }
 
   private def equalTransition(ast: AstBranch, targetSymbol: ComposedSymbol) : AstNode = {
-    AstBranch(targetSymbol, ast.subNodes.map(transform))
+    val nonControlNodes = ast.subNodes.filter(n => !n.isInstanceOf[AstControlLeaf]).iterator
+
+    val transformedSubNodes = targetSymbol.symbols.map({
+      case (controlSymbol: ControlSymbol) => AstControlLeaf(controlSymbol)
+      case _ => {
+        if (nonControlNodes.hasNext) {
+          transform(nonControlNodes.next())
+        }
+        else {
+          throw new Exception("Ast tree has more data nodes than target symbol has data sub symbols.")
+        }
+      }
+    })
+
+    if (nonControlNodes.hasNext) {
+      throw new Exception("Ast tree has non handled data nodes.")
+    }
+
+    AstBranch(targetSymbol, transformedSubNodes)
   }
 
   private def equalTransition(ast: AstControlLeaf, targetSymbol: ControlSymbol) : AstNode = {
