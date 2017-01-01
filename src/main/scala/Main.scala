@@ -15,7 +15,7 @@ object Main {
 
   val compiler = new Compiler()
 
-  private def main(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit = {
     if (args.length == 0) {
       printNotEnough()
       return
@@ -25,12 +25,12 @@ object Main {
   }
 
   private def makeChoice(args: Array[String]) {
+    if(args.length < 2) printNotEnough()
+
     args(0) match {
       case "-h" | "--help" => println(usage)
       case "-f" | "--file" =>
-        if(args.length < 2) {
-          printNotEnough()
-        } else if (args.length > 2) {
+        if (args.length > 2) {
           compile(readFile(args(1)), args(2))
         } else {
           compile(readFile(args(1)), "output.js")
