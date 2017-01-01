@@ -32,7 +32,7 @@ class ComposedSymbol (symbolGroups: Symbol*) extends Symbol {
       None
     }
     else {
-      Some( (AstBranch(this, result.get), code) )
+      Some( (AstBranch(this, result.get.reverse), code) )
     }
   }
 }
