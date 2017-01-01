@@ -15,7 +15,7 @@ object Main {
 
   val compiler = new Compiler()
 
-  def main(args: Array[String]): Unit = {
+  private def main(args: Array[String]): Unit = {
     if (args.length == 0) {
       printNotEnough()
       return
@@ -24,10 +24,10 @@ object Main {
     makeChoice(args)
   }
 
-  def makeChoice(args: Array[String]) {
+  private def makeChoice(args: Array[String]) {
     args(0) match {
       case "-h" | "--help" => println(usage)
-      case "-f" | "--file" => {
+      case "-f" | "--file" =>
         if(args.length < 2) {
           printNotEnough()
         } else if (args.length > 2) {
@@ -35,25 +35,24 @@ object Main {
         } else {
           compile(readFile(args(1)), "output.js")
         }
-      }
       case _ => println(usage)
     }
   }
 
-  def printNotEnough(): Unit = {
+  private def printNotEnough(): Unit = {
     println("Not enough parameters! Use --help")
   }
 
-  def compile(param: String, file: String) = {
+  private def compile(param: String, file: String) = {
     val resultCode = compiler.compile(LeluToJsTransform, param)
     writeFile(resultCode, file)
   }
 
-  def readFile(path: String): String = {
+  private def readFile(path: String): String = {
     scala.io.Source.fromFile(path).mkString
   }
 
-  def writeFile(resultCode: Option[String], file: String) = {
+  private def writeFile(resultCode: Option[String], file: String) = {
     if(resultCode.nonEmpty) {
       val pw = new PrintWriter(new File(file))
       val split = resultCode.get.split("\n")
