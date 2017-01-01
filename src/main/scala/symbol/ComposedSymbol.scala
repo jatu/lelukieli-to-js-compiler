@@ -2,41 +2,37 @@ package symbol
 
 import scala.collection.immutable.List
 
-class ComposedSymbol (symbolOptionGroups: Seq[Symbol]*) extends Symbol {
+class ComposedSymbol (symbolGroups: Symbol*) extends Symbol {
 
-  var symbolGroups = symbolOptionGroups
+  var symbols = symbolGroups
 
-  def addGroups(symbolOptionGroups: Seq[Symbol]*) = {
-    symbolGroups = symbolGroups ++ symbolOptionGroups
+  def addGroups(symbolGroups: Symbol*) = {
+    symbols = symbols ++ symbolGroups
   }
 
   override def parseAstNode(input: CharSequence): Option[(AstNode, CharSequence)] = {
-    symbolGroups.map( g => {
-        var code = input //TODO: fold function should carry result array AND code, currently code is just mutated!
-        val result = g.foldLeft[Option[List[AstNode]]](Some(List[AstNode]())) { (results, symbol) =>
-          if (results.isEmpty) {
-            None
-          }
-          else {
-            val symbolParseResult = symbol.parseAstNode(code)
-            if (symbolParseResult.isEmpty) {
-              None
-            }
-            else {
-              code = symbolParseResult.get._2
-              Some((symbolParseResult.get._1) :: results.get)
-            }
-          }
-        }
-
-        if (result.isEmpty) {
+    var code = input //TODO: fold function should carry result array AND code, currently code is just mutated!
+    val result = symbols.foldLeft[Option[List[AstNode]]](Some(List[AstNode]())) { (results, symbol) =>
+      if (results.isEmpty) {
+        None
+      }
+      else {
+        val symbolParseResult = symbol.parseAstNode(code)
+        if (symbolParseResult.isEmpty) {
           None
         }
         else {
-          Some( (AstBranch(this, result.get), code) )
+          code = symbolParseResult.get._2
+          Some((symbolParseResult.get._1) :: results.get)
         }
-
       }
-    ).find(r=>r.isDefined).getOrElse(None)
+    }
+
+    if (result.isEmpty) {
+      None
+    }
+    else {
+      Some( (AstBranch(this, result.get), code) )
+    }
   }
 }

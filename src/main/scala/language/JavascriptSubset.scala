@@ -1,24 +1,25 @@
 package language
 
-import symbol.{ComposedSymbol, ControlSymbol, DataSymbol}
+import symbol.{ComposedSymbol, ControlSymbol, DataSymbol, SymbolPool}
 
 object JavascriptSubset extends Language {
 
   val value = new DataSymbol("true|false|null|[0-9]+\\.[0-9]*|[0-9]+")
   val stringValue = new DataSymbol("([\"'])(?:(?=(\\\\?))\\2.)*?\\1")
   val symbol = new DataSymbol("\\p{L}+")
-  val assignment = new ComposedSymbol(List(symbol, new ControlSymbol("="), value))
-  val condition = new ComposedSymbol(List(stringValue, new ControlSymbol(" "), symbol, new ControlSymbol(" "), stringValue), List(stringValue))
+  val assignment = new ComposedSymbol(symbol, new ControlSymbol("="), value)
+  val condition = new ComposedSymbol(stringValue, new ControlSymbol(" "), symbol, new ControlSymbol(" "), stringValue)
 
-  val mloc = new ComposedSymbol()
+  val mloc = new SymbolPool()
 
-  val print = new ComposedSymbol(List(new ControlSymbol("console.log"), new ControlSymbol("("), stringValue, new ControlSymbol(")"), new ControlSymbol(";")))
-  val wwhile = new ComposedSymbol(List(new ControlSymbol("while"), new ControlSymbol("("), condition, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}")))
-  val iff = new ComposedSymbol(List(new ControlSymbol("if"), new ControlSymbol("("), condition, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}")))
+  val print = new ComposedSymbol(new ControlSymbol("console.log"), new ControlSymbol("("), stringValue, new ControlSymbol(")"), new ControlSymbol(";"))
+  val wwhile = new ComposedSymbol(new ControlSymbol("while"), new ControlSymbol("("), condition, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}"))
+  val iff = new ComposedSymbol(new ControlSymbol("if"), new ControlSymbol("("), condition, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}"))
 
-  val loc = new ComposedSymbol()
-  mloc.addGroups(List(loc, mloc), List(loc))
-  val block = new ComposedSymbol(List(mloc))
+  val loc = new SymbolPool(assignment, print, wwhile, iff)
+  val locAndMloc = new ComposedSymbol(loc, mloc)
+  mloc.addGroups(locAndMloc, loc)
+  val block = new ComposedSymbol(mloc)
 
   override def startSymbol = block
 
