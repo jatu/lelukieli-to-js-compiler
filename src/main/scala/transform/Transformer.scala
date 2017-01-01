@@ -6,21 +6,21 @@ import scala.collection.mutable.HashMap
 
 class Transformer {
 
-  private val transforms = new HashMap[Symbol, AstNode=>AstNode]()
+  private val transforms = new HashMap[Symbol, AstNode=>Seq[AstNode]]()
 
-  def addTransition(symbol: Symbol, transformation: AstNode=>AstNode) = {
+  def addTransition(symbol: Symbol, transformation: AstNode=>Seq[AstNode]) = {
     transforms.put(symbol, transformation)
   }
 
-  def transform(ast: AstNode) : AstNode = {
+  def transform(ast: AstNode) : Seq[AstNode] = {
     val transform = transforms.get(ast.symbol)
     transform match {
-      case (t: Some[AstNode=>AstNode]) => t.get (ast)
+      case (t: Some[AstNode=>Seq[AstNode]]) => t.get (ast)
       case None => throw new Exception("Unknown symbol")
     }
   }
 
-  def equalTransition(targetSymbol: Symbol) : (AstNode=>AstNode) = {
+  def equalTransition(targetSymbol: Symbol) : (AstNode=>Seq[AstNode]) = {
     (sourceNode: AstNode) => {
       sourceNode match {
         case (node: AstDataLeaf) => equalTransition(node, targetSymbol.asInstanceOf[DataSymbol])
@@ -30,11 +30,11 @@ class Transformer {
     }
   }
 
-  private def equalTransition(ast: AstBranch, targetSymbol: ComposedSymbol) : AstNode = {
+  private def equalTransition(ast: AstBranch, targetSymbol: ComposedSymbol) : Seq[AstNode] = {
     val nonControlNodes = ast.subNodes.filter(n => !n.isInstanceOf[AstControlLeaf]).iterator
 
-    val transformedSubNodes = targetSymbol.symbols.map({
-      case (controlSymbol: ControlSymbol) => AstControlLeaf(controlSymbol)
+    val transformedSubNodes = targetSymbol.symbols.flatMap({
+      case (controlSymbol: ControlSymbol) => List(AstControlLeaf(controlSymbol))
       case _ => {
         if (nonControlNodes.hasNext) {
           transform(nonControlNodes.next())
@@ -49,15 +49,15 @@ class Transformer {
       throw new Exception("Ast tree has non handled data nodes.")
     }
 
-    AstBranch(targetSymbol, transformedSubNodes)
+    List(AstBranch(targetSymbol, transformedSubNodes))
   }
 
-  private def equalTransition(ast: AstControlLeaf, targetSymbol: ControlSymbol) : AstNode = {
-    AstControlLeaf(targetSymbol)
+  private def equalTransition(ast: AstControlLeaf, targetSymbol: ControlSymbol) : Seq[AstNode] = {
+    List(AstControlLeaf(targetSymbol))
   }
 
-  private def equalTransition(ast: AstDataLeaf, targetSymbol: DataSymbol) : AstNode = {
-    AstDataLeaf(targetSymbol, ast.content)
+  private def equalTransition(ast: AstDataLeaf, targetSymbol: DataSymbol) : Seq[AstNode] = {
+    List(AstDataLeaf(targetSymbol, ast.content))
   }
 
 }

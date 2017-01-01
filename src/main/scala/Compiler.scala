@@ -7,7 +7,7 @@ class Compiler {
   def compile(transform: Transform, inputCode: String): Option[String] = {
     val sourceAstTree = parse(transform.sourceLanguage, inputCode)
     val targetAstTree = sourceAstTree.map(astTree => transform.transform(astTree))
-    val outputCode = targetAstTree.map(astTree => astTree.toCodeString.toString)
+    val outputCode = targetAstTree.map(astTree => AstNode.toCodeString(astTree).toString())
 
     outputCode
   }

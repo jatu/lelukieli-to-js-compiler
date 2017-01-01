@@ -23,7 +23,7 @@ object LeluToJsTransform extends Transform {
   compiler.addTransition(LeluLanguage.value, compiler.equalTransition(JavascriptSubset.value))
   compiler.addTransition(LeluLanguage.symbol, compiler.equalTransition(JavascriptSubset.symbol))
 
-  def transform(astNode: AstNode) : AstNode = {
+  def transform(astNode: AstNode) : Seq[AstNode] = {
     compiler.transform(astNode)
   }
 
