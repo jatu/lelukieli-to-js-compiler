@@ -14,5 +14,9 @@ case class AstDataLeaf(symbol: DataSymbol, content: CharSequence) extends AstNod
 }
 
 case class AstBranch(symbol: ComposedSymbol, subNodes: Seq[AstNode]) extends AstNode{
-  override def toCodeString: CharSequence = subNodes.foldLeft(new StringBuilder())(_ append _)
+  override def toCodeString: CharSequence = {
+    subNodes.foldLeft(new StringBuilder()) { (strBuilder, node) =>
+      strBuilder.append(node.toCodeString)
+    }
+  }
 }
