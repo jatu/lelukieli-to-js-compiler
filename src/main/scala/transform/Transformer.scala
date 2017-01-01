@@ -20,6 +20,12 @@ class Transformer {
     }
   }
 
+  def ignoreTransition() : (AstNode=>Seq[AstNode]) = {
+    (sourceNode: AstNode) => {
+      List()
+    }
+  }
+
   def equalTransition(targetSymbol: Symbol) : (AstNode=>Seq[AstNode]) = {
     (sourceNode: AstNode) => {
       sourceNode match {
