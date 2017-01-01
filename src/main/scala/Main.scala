@@ -1,6 +1,6 @@
 import java.io.{File, PrintWriter}
 
-import transform.LeluToJsTransform
+import transform.{LeluToJsTransform, WhitespaceRemoveTransform}
 
 object Main {
 
@@ -44,7 +44,9 @@ object Main {
   }
 
   private def compile(param: String, file: String) = {
-    val resultCode = compiler.compile(LeluToJsTransform, param)
+    val cleanedCode = compiler.compile(WhitespaceRemoveTransform, param)
+    val resultCode = cleanedCode.flatMap(code => compiler.compile(LeluToJsTransform, code))
+
     writeFile(resultCode, file)
   }
 

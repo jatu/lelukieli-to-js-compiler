@@ -8,7 +8,7 @@ object JavascriptSubset extends Language {
   val stringValue = new DataSymbol("([\"'])(?:(?=(\\\\?))\\2.)*?\\1")
   val symbol = new DataSymbol("\\p{L}+")
   val assignment = new ComposedSymbol(symbol, new ControlSymbol("="), value)
-  val condition = new ComposedSymbol(stringValue, new ControlSymbol(" "), symbol, new ControlSymbol(" "), stringValue)
+  val condition = new ComposedSymbol(stringValue, symbol, stringValue)
 
   val mloc = new SymbolPool()
 

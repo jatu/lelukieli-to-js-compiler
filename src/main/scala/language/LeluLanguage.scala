@@ -8,11 +8,11 @@ object LeluLanguage extends Language {
   val stringValue = new DataSymbol("([\"'])(?:(?=(\\\\?))\\2.)*?\\1")
   val symbol = new DataSymbol("\\p{L}+")
   val assignment = new ComposedSymbol(symbol, new ControlSymbol("="), value)
-  val condition = new ComposedSymbol(stringValue, new ControlSymbol(" "), symbol, new ControlSymbol(" "), stringValue)
+  val condition = new ComposedSymbol(stringValue, symbol, stringValue)
 
   val mloc = new SymbolPool()
 
-  val print = new ComposedSymbol(new ControlSymbol("tulosta"), new ControlSymbol(" "), stringValue)
+  val print = new ComposedSymbol(new ControlSymbol("tulosta"), stringValue)
   val wwhile = new ComposedSymbol(new ControlSymbol("toista"), new ControlSymbol("("), condition, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}"))
   val iff = new ComposedSymbol(new ControlSymbol("jos"), new ControlSymbol("("), condition, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}"))
 
