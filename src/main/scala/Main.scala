@@ -17,7 +17,7 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     if (args.length == 0) {
-      println("Not enough parameters! Use --help")
+      printNotEnough()
       return
     }
 
@@ -27,8 +27,10 @@ object Main {
   def makeChoice(args: Array[String]) {
     args(0) match {
       case "-h" | "--help" => println(usage)
-      case "-f" | "--file"  => {
-        if(args(2) != null) {
+      case "-f" | "--file" => {
+        if(args.length < 2) {
+          printNotEnough()
+        } else if (args.length > 2) {
           compile(readFile(args(1)), args(2))
         } else {
           compile(readFile(args(1)), "output.js")
@@ -36,6 +38,10 @@ object Main {
       }
       case _ => println(usage)
     }
+  }
+
+  def printNotEnough(): Unit = {
+    println("Not enough parameters! Use --help")
   }
 
   def compile(param: String, file: String) = {
