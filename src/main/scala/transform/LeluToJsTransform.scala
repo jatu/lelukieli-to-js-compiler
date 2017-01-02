@@ -13,7 +13,7 @@ object LeluToJsTransform extends Transform {
   compiler.addTransition(LeluLanguage.block, compiler.equalTransition(JavascriptSubset.block))
   compiler.addTransition(LeluLanguage.locAndMloc, compiler.equalTransition(JavascriptSubset.locAndMloc))
   compiler.addTransition(LeluLanguage.assignment, compiler.equalTransition(JavascriptSubset.assignment))
-  compiler.addTransition(LeluLanguage.condition, compiler.equalTransition(JavascriptSubset.condition))
+  compiler.addTransition(LeluLanguage.expression, compiler.equalTransition(JavascriptSubset.condition))
   compiler.addTransition(LeluLanguage.iff, compiler.equalTransition(JavascriptSubset.iff))
   compiler.addTransition(LeluLanguage.wwhile, compiler.equalTransition(JavascriptSubset.wwhile))
   compiler.addTransition(LeluLanguage.loc, compiler.equalTransition(JavascriptSubset.loc))
