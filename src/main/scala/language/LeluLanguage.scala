@@ -14,17 +14,17 @@ object LeluLanguage extends Language {
   val mloc = new SymbolPool()
 
   val symbol = new DataSymbol("\\p{L}+")
-  val functionCall = new ComposedSymbol(expression, new ControlSymbol("("), expression, new ControlSymbol(")"))
-  val functionReturnStatement = new ComposedSymbol(new ControlSymbol("palautappa:"), expression)
-  expression.addGroups(value, function, functionCall, symbol)
-  val function = new ComposedSymbol(new ControlSymbol("funkkari"), new ControlSymbol("("), symbol, new ControlSymbol(")"), new ControlSymbol("{"), mloc, functionReturnStatement, new ControlSymbol("}"))
+  val functionCall = new ComposedSymbol(new ControlSymbol("#"), expression, new ControlSymbol("("), expression, new ControlSymbol(")"))
+  val functionReturnStatement = new ComposedSymbol(new ControlSymbol("::"), expression)
+  val functionB = new ComposedSymbol(new ControlSymbol("funkkari"), new ControlSymbol("("), symbol, new ControlSymbol(")"), new ControlSymbol("{"), mloc, functionReturnStatement, new ControlSymbol("}"))
+  expression.addGroups(value, functionB, functionCall, symbol)
   val assignment = new ComposedSymbol(symbol, new ControlSymbol("="), expression)
 
   val print = new ComposedSymbol(new ControlSymbol("voekkoprintata"), expression)
   val wwhile = new ComposedSymbol(new ControlSymbol("kerranjostoisennii"), new ControlSymbol("("), expression, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}"))
   val iff = new ComposedSymbol(new ControlSymbol("oliskolie"), new ControlSymbol("("), expression, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}"))
 
-  val loc = new SymbolPool(assignment, print, wwhile, iff)
+  val loc = new SymbolPool(assignment, print, wwhile, iff, expression)
   val locAndMloc = new ComposedSymbol(loc, mloc)
   mloc.addGroups(locAndMloc, loc)
   val block = new ComposedSymbol(mloc)
