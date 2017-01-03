@@ -24,7 +24,9 @@ object LeluLanguage extends Language {
   val wwhile = new ComposedSymbol(new ControlSymbol("kerranjostoisennii"), new ControlSymbol("("), expression, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}"))
   val iff = new ComposedSymbol(new ControlSymbol("oliskolie"), new ControlSymbol("("), expression, new ControlSymbol(")"), new ControlSymbol("{"), mloc, new ControlSymbol("}"))
 
-  val loc = new SymbolPool(assignment, print, wwhile, iff, expression)
+  val nonCatchedExpression = new ComposedSymbol(expression)
+
+  val loc = new SymbolPool(assignment, print, wwhile, iff, nonCatchedExpression)
   val locAndMloc = new ComposedSymbol(loc, mloc)
   mloc.addGroups(locAndMloc, loc)
   val block = new ComposedSymbol(mloc)
