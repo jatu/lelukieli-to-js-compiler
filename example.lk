@@ -1,0 +1,21 @@
+kalakukkoa = 5
+
+printtaappa = funkkari (lässytystä) {
+    voekkoprintata lässytystä
+    :: eilieneemittää
+}
+
+#printtaappa("onks siellä kalakukkoi")
+
+
+kerranjostoisennii (kalakukkoa) {
+    #printtaappa("viälä löytyyy")
+
+    oliskolie (#onkosuuri(kalakukkoa)) {
+        #printtaappa("ja vaikka kuinka")
+    }
+
+    kalakukkoa = #vähennäppä(kalakukkoa)
+}
+
+voekkoprintata "no nynne loppu"
